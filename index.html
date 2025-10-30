@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HallPassHub - Your Ultimate Gaming Destination</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(180deg, #4a5fd9 0%, #6b4fc7 50%, #8b4ab8 100%);
+            min-height: 100vh;
+            color: #fff;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px 20px;
+        }
+
+        .logo {
+            font-size: 3.5em;
+            font-weight: 700;
+            color: #7fffd4;
+            text-shadow: 0 0 30px rgba(127, 255, 212, 0.5);
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+        }
+
+        .tagline {
+            font-size: 1.4em;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 300;
+        }
+
+        .menu-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.5em;
+            z-index: 100;
+            transition: all 0.3s;
+        }
+
+        .menu-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: scale(1.05);
+        }
+
+        .menu-dropdown {
+            position: fixed;
+            top: 80px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 20px;
+            display: none;
+            z-index: 99;
+            min-width: 250px;
+        }
+
+        .menu-dropdown.active {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .menu-item {
+            padding: 15px 20px;
+            margin: 5px 0;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 1.1em;
+        }
+
+        .menu-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(5px);
+        }
+
+        .games-container {
+            max-width: 650px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .game-card {
+            background: rgba(138, 122, 220, 0.35);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            padding: 40px 35px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+        }
+
+        .game-number {
+            position: absolute;
+            top: 30px;
+            right: 35px;
+            font-size: 5em;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.15);
+        }
+
+        .game-title {
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .game-url {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 25px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1em;
+        }
+
+        .globe-icon {
+            width: 24px;
+            height: 24px;
+            color: #7fffd4;
+        }
+
+        .warning-box {
+            background: rgba(120, 100, 150, 0.6);
+            border-left: 4px solid #ffd700;
+            border-radius: 12px;
+            padding: 18px 20px;
+            margin-bottom: 25px;
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .warning-icon {
+            color: #ffd700;
+            font-size: 1.5em;
+            flex-shrink: 0;
+        }
+
+        .warning-text {
+            font-size: 1em;
+            line-height: 1.5;
+        }
+
+        .warning-text strong {
+            font-weight: 700;
+        }
+
+        .game-description {
+            font-size: 1.15em;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 30px;
+        }
+
+        .play-btn {
+            background: linear-gradient(135deg, #ff6b9d 0%, #ff8585 100%);
+            color: white;
+            border: none;
+            padding: 18px 50px;
+            border-radius: 50px;
+            font-size: 1.4em;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-block;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 10px 30px rgba(255, 107, 157, 0.4);
+        }
+
+        .play-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 107, 157, 0.6);
+        }
+
+        .play-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 60px;
+            padding: 30px;
+        }
+
+        .footer-title {
+            font-size: 1.3em;
+            margin-bottom: 15px;
+        }
+
+        .footer-text {
+            font-size: 1.05em;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+        }
+
+        .share-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.8em;
+            z-index: 100;
+        }
+
+        @media (max-width: 768px) {
+            .game-title {
+                font-size: 2em;
+            }
+            
+            .game-number {
+                font-size: 3.5em;
+            }
+            
+            .logo {
+                font-size: 2.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="menu-btn" onclick="toggleMenu()">☰</div>
+    <div class="menu-dropdown" id="menuDropdown">
+        <div class="menu-item" onclick="scrollToGame(0)">Steal a Brainrot+</div>
+        <div class="menu-item" onclick="scrollToGame(1)">Subway Surfers</div>
+        <div class="menu-item" onclick="scrollToGame(2)">Sonic 1</div>
+        <div class="menu-item" onclick="scrollToGame(3)">Sonic 2</div>
+        <div class="menu-item" onclick="scrollToGame(4)">Block Builder Sandbox</div>
+        <div class="menu-item" onclick="scrollToGame(5)">Grow a Garden</div>
+    </div>
+
+    <div class="header">
+        <div class="logo">🎮 HallPassHub 🎮</div>
+        <div class="tagline">Your Ultimate Gaming Destination</div>
+    </div>
+
+    <div class="games-container">
+        <div class="game-card" id="game0">
+            <div class="game-number">01</div>
+            <div class="game-title">Steal a Brainrot+</div>
+            <div class="game-url">
+                <span class="globe-icon">🌐</span>
+                <span>steal-brainrot.io</span>
+            </div>
+            <div class="warning-box">
+                <div class="warning-icon">⚠️</div>
+                <div class="warning-text">
+                    <strong>Important:</strong> Make sure you are using guest wifi before playing
+                </div>
+            </div>
+            <div class="game-description">
+                Dive into the chaos of Steal a Brainrot+! A fast-paced multiplayer experience where strategy meets mayhem. Compete with players worldwide in this addictive io-style game.
+            </div>
+            <button class="play-btn" onclick="openGame('https://steal-brainrot.io')">Play Now! 🚀</button>
+        </div>
+
+        <div class="game-card" id="game1">
+            <div class="game-number">02</div>
+            <div class="game-title">Subway Surfers</div>
+            <div class="game-url">
+                <span class="globe-icon">🌐</span>
+                <span>subway-alpha.vercel.app</span>
+            </div>
+            <div class="warning-box">
+                <div class="warning-icon">⚠️</div>
+                <div class="warning-text">
+                    <strong>Important:</strong> Make sure you are using guest wifi before playing
+                </div>
+            </div>
+            <div class="game-description">
+                Experience the thrill of Subway Surfers! Run through endless subway tunnels, dodge obstacles, and collect coins. An action-packed endless runner that will test your reflexes and keep you coming back for more!
+            </div>
+            <button class="play-btn" onclick="openGame('https://subway-alpha.vercel.app')">Play Now! 🚀</button>
+        </div>
+
+        <div class="game-card" id="game2">
+            <div class="game-number">03</div>
+            <div class="game-title">Sonic 1</div>
+            <div class="game-url">
+                <span class="globe-icon">🌐</span>
+                <span>sonic-1.vercel.app</span>
+            </div>
+            <div class="warning-box">
+                <div class="warning-icon">⚠️</div>
+                <div class="warning-text">
+                    <strong>Important:</strong> Make sure you are using guest wifi before playing
+                </div>
+            </div>
+            <div class="game-description">
+                Relive the classic adventure with Sonic 1! Speed through iconic zones, collect rings, and defeat Dr. Robotnik. Experience the game that started it all in this timeless platforming masterpiece.
+            </div>
+            <button class="play-btn" onclick="openGame('https://sonic-1.vercel.app')">Play Now! 🚀</button>
+        </div>
+
+        <div class="game-card" id="game3">
+            <div class="game-number">04</div>
+            <div class="game-title">Sonic 2</div>
+            <div class="game-url">
+                <span class="globe-icon">🌐</span>
+                <span>sonic-2.vercel.app</span>
+            </div>
+            <div class="warning-box">
+                <div class="warning-icon">⚠️</div>
+                <div class="warning-text">
+                    <strong>Important:</strong> Make sure you are using guest wifi before playing
+                </div>
+            </div>
+            <div class="game-description">
+                Sonic returns with even more speed in Sonic 2! Team up with Tails and race through incredible zones. Enhanced graphics, new moves, and unforgettable boss battles await in this legendary sequel.
+            </div>
+            <button class="play-btn" onclick="openGame('https://sonic-2.vercel.app')">Play Now! 🚀</button>
+        </div>
+
+        <div class="game-card" id="game4">
+            <div class="game-number">05</div>
+            <div class="game-title">Block Builder Sandbox</div>
+            <div class="game-url">
+                <span class="globe-icon">🌐</span>
+                <span>whatever-mu-one.vercel.app</span>
+            </div>
+            <div class="warning-box">
+                <div class="warning-icon">⚠️</div>
+                <div class="warning-text">
+                    <strong>Important:</strong> Make sure you are using guest wifi before playing
+                </div>
+            </div>
+            <div class="game-description">
+                Unleash your creativity in Block Builder Sandbox! Spawn blocks, craft stunning landscapes, and experiment with endless possibilities. Build anything you can imagine in this ultimate creative playground!
+            </div>
+            <button class="play-btn" onclick="openGame('https://whatever-mu-one.vercel.app')">Play Now! 🚀</button>
+        </div>
+
+        <div class="game-card" id="game5">
+            <div class="game-number">06</div>
+            <div class="game-title">Grow a Garden</div>
+            <div class="game-url">
+                <span class="globe-icon">🌐</span>
+                <span>growden.vercel.app</span>
+            </div>
+            <div class="warning-box">
+                <div class="warning-icon">⚠️</div>
+                <div class="warning-text">
+                    <strong>Important:</strong> Make sure you are using guest wifi before playing
+                </div>
+            </div>
+            <div class="game-description">
+                Experience Grow a Garden - an immersive gardening adventure that will keep you hooked! Plant seeds, nurture your plants, and watch your garden flourish. Build, grow, and conquer in this relaxing yet engaging game!
+            </div>
+            <button class="play-btn" onclick="openGame('https://growden.vercel.app')">Play Now! 🚀</button>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="footer-title">🎯 HallPassHub - Where Gaming Meets Fun 🎯</div>
+        <div class="footer-text">Remember to always use guest wifi when accessing these games!</div>
+    </div>
+
+    <div class="share-btn">📤</div>
+
+    <script>
+        function openGame(url) {
+            window.open(url, '_blank');
+        }
+
+        function toggleMenu() {
+            const menu = document.getElementById('menuDropdown');
+            menu.classList.toggle('active');
+        }
+
+        function scrollToGame(index) {
+            const game = document.getElementById('game' + index);
+            game.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            toggleMenu();
+        }
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const menu = document.getElementById('menuDropdown');
+            const menuBtn = document.querySelector('.menu-btn');
+            
+            if (!menu.contains(event.target) && !menuBtn.contains(event.target)) {
+                menu.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
